@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:title="Home" />
+    <item
+        android:id="@+id/sensores"
+        android:title="Sensores" />
+    <item
+        android:id="@+id/conexionAPI"
+        android:title="Conexión API" />
+    <item
+        android:id="@+id/galería"
+        android:title="Galería" />
+    <item
+        android:id="@+id/multimedia"
+        android:title="Multimedia" />
+</menu>
