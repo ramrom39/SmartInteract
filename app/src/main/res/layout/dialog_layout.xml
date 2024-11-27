@@ -1,0 +1,21 @@
+<!-- res/layout/dialog_proximidad.xml -->
+<!-- dialog_layout.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/proximidadValor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Esperando proximidad..."
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/cerrarButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cerrar" />
+</LinearLayout>

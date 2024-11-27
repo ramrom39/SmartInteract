@@ -29,6 +29,10 @@
             android:name=".Multimedia"
             android:exported="true">
         </activity>
+        <activity
+            android:name=".ProximidadActivity"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>
