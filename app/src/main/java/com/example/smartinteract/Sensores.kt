@@ -15,13 +15,24 @@ import androidx.appcompat.app.AppCompatActivity
 class Sensores : AppCompatActivity(), SensorEventListener {
 
     private lateinit var sensorManager: SensorManager
+
     private var proximidadSensor: Sensor? = null
-    private var proximidadValorTextView: TextView? = null // No lo declaramos como lateinit, lo inicializamos cuando sea necesario.
+    private var proximidadValorTextView: TextView? = null
 
     private var giroscopioSensor: Sensor?=null
     private var giroscopioValorTextView: TextView? = null
 
-    private var alertDialog: AlertDialog? = null
+
+    private var luzSensor: Sensor?=null
+    private var luzValorSensor: TextView? = null
+
+
+    private var aceletrometroSensor: Sensor?=null
+    private var acelerometroValorTextView: TextView? = null
+
+    private var proximidadDialog: AlertDialog? = null
+    private var giroscopioDialog: AlertDialog? = null
+    private var luzDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,13 +41,15 @@ class Sensores : AppCompatActivity(), SensorEventListener {
         // Inicializamos los botones de la actividad principal
         val giroscopio= findViewById<Button>(R.id.giroscopio)
         val proximidad = findViewById<Button>(R.id.proximidad)
+        val luz=findViewById<Button>(R.id.luz)
+        val acelerometro=findViewById<Button>(R.id.acelerometro)
 
 
         // Inicializamos el SensorManager y el sensor de proximidad
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         proximidadSensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY)
         giroscopioSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
-
+        luzSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
         proximidad.setOnClickListener {
             // Inflamos el AlertDialog cuando se presiona el botón de proximidad
             showProximitySensorDialog()
@@ -45,6 +58,14 @@ class Sensores : AppCompatActivity(), SensorEventListener {
             // Inflamos el AlertDialog cuando se presiona el botón de giroscopio
             showGyroscopeDialog()
         }
+        luz.setOnClickListener {
+            // Inflamos el AlertDialog cuando se presiona el botón de luz
+            showLightSensorDialog()
+        }
+//        acelerometro.setOnClickListener {
+//            // Inflamos el AlertDialog cuando se presiona el botón de acelerometro
+//            showAcelerometroDialog()
+//        }
     }
 
     private fun showProximitySensorDialog() {
@@ -57,17 +78,17 @@ class Sensores : AppCompatActivity(), SensorEventListener {
         val cerrarButton = dialogView.findViewById<Button>(R.id.cerrarButton)
 
         // Creamos el AlertDialog
-        alertDialog = AlertDialog.Builder(this)
+        proximidadDialog = AlertDialog.Builder(this)
             .setView(dialogView)
             .create()
 
         // Configuramos el botón de cerrar para que cierre el dialog
         cerrarButton.setOnClickListener {
-            alertDialog?.dismiss() // Cierra el dialog
+            proximidadDialog?.dismiss() // Cierra el dialog
         }
 
         // Mostramos el AlertDialog
-        alertDialog?.show()
+        proximidadDialog?.show()
     }
 
     private fun showGyroscopeDialog() {
@@ -80,36 +101,66 @@ class Sensores : AppCompatActivity(), SensorEventListener {
         val cerrarButton = dialogView.findViewById<Button>(R.id.cerrarButton)
 
         // Creamos el AlertDialog
-        alertDialog = AlertDialog.Builder(this)
+        giroscopioDialog = AlertDialog.Builder(this)
             .setView(dialogView)
             .create()
 
         // Configuramos el botón de cerrar para que cierre el dialog
         cerrarButton.setOnClickListener {
-            alertDialog?.dismiss() // Cierra el dialog
+            giroscopioDialog?.dismiss() // Cierra el dialog
         }
 
         // Mostramos el AlertDialog
-        alertDialog?.show()
+        giroscopioDialog?.show()
+    }
+    private fun showLightSensorDialog() {
+        // Inflamos el layout personalizado para el AlertDialog
+        val dialogBuilder = LayoutInflater.from(this)
+        val dialogView = dialogBuilder.inflate(R.layout.dialog_layout, null)
+
+
+        // Inicializamos proximidadValorTextView dentro de la función para asegurarnos que está disponible
+        luzValorSensor = dialogView.findViewById(R.id.proximidadValor)
+        val cerrarButton = dialogView.findViewById<Button>(R.id.cerrarButton)
+
+        // Creamos el AlertDialog
+        luzDialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
+
+        // Configuramos el botón de cerrar para que cierre el dialog
+        cerrarButton.setOnClickListener {
+            luzDialog?.dismiss() // Cierra el dialog
+        }
+
+        // Mostramos el AlertDialog
+        luzDialog?.show()
     }
     override fun onSensorChanged(event: SensorEvent?) {
         if (event != null) {
             when (event.sensor.type) {
                 Sensor.TYPE_PROXIMITY -> {
                     val distancia = event.values[0]
-                    if (alertDialog?.isShowing == true) {
+                    if (proximidadDialog?.isShowing == true) {
                         proximidadValorTextView?.text = "Distancia: $distancia cm"
                     }
                     if (distancia == 0.0f) {
-                        alertDialog?.dismiss()
+                        proximidadDialog?.dismiss()
                     }
                 }
                 Sensor.TYPE_GYROSCOPE -> {
-                    val rotacionX = event.values[0] // Rotación en el eje X
-                    val rotacionY = event.values[1] // Rotación en el eje Y
-                    val rotacionZ = event.values[2] // Rotación en el eje Z
-
-                    giroscopioValorTextView?.text = "Rotación\nX: $rotacionX\nY: $rotacionY\nZ: $rotacionZ"
+                    val rotacionX = event.values[0]
+                    val rotacionY = event.values[1]
+                    val rotacionZ = event.values[2]
+                    if (giroscopioDialog?.isShowing == true) {
+                        giroscopioValorTextView?.text = "Rotación\nX: $rotacionX\nY: $rotacionY\nZ: $rotacionZ"
+                    }
+                }
+                Sensor.TYPE_LIGHT -> {
+                    val luz = event.values[0]
+                    if (luzDialog?.isShowing == true) {
+                        luzValorSensor?.text = "Luz: $luz Lux"
+                    }
                 }
             }
         }
@@ -123,10 +174,12 @@ class Sensores : AppCompatActivity(), SensorEventListener {
     override fun onResume() {
         super.onResume()
         proximidadSensor?.also { proxSensor ->
-            // Registramos el Listener para el sensor de proximidad
             sensorManager.registerListener(this, proxSensor, SensorManager.SENSOR_DELAY_UI)
         }
         giroscopioSensor?.let {
+            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_UI)
+        }
+        luzSensor?.let {
             sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_UI)
         }
     }
