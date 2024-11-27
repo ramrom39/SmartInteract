@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#252833"
+    tools:context=".App">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar1"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:background="#9A9A9A"
+        android:fitsSystemWindows="true"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="MissingConstraints">
+
+        <!-- Botón de menú a la izquierda -->
+        <ImageButton
+            android:id="@+id/buttonPopupMenu"
+            android:layout_width="35dp"
+            android:layout_height="42dp"
+            android:layout_gravity="start|center_vertical"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="Menu"
+            android:scaleType="fitCenter"
+            android:src="@drawable/menu" />
+
+        <!-- Texto centrado -->
+        <TextView
+            android:id="@+id/welcomeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:shadowColor="#80000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="4"
+            android:text="Smart Interact"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <!-- Avatar a la derecha -->
+        <ImageView
+            android:id="@+id/avatarImage"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="Avatar de Usuario"
+            android:scaleType="fitCenter"
+            android:src="@drawable/avatar" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="372dp"
+        android:layout_height="582dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:elevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.498" />
+
+    <ImageView
+        android:id="@+id/logoImage"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:src="@drawable/logoprobar"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintTop_toTopOf="@+id/view"
+        app:layout_constraintVertical_bias="0.165" />
+
+    <TextView
+        android:id="@+id/welcomeMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:text="¡Bienvenido a Gestion de Socios!"
+        android:textColor="#9A9A9A"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintTop_toBottomOf="@+id/logoImage" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="Gestiona tus socios de manera fácil y eficiente"
+        android:textColor="#9A9A9A"
+        android:textSize="14sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintTop_toBottomOf="@+id/welcomeMessage" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="MissingConstraints"
+
+        tools:layout_editor_absoluteX="-95dp">
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="@+id/toolbar" />
+
+    <ImageButton
+        android:id="@+id/menu_home"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="Home"
+        android:scaleType="fitCenter"
+        android:src="@drawable/homi"
+        app:layout_constraintBottom_toBottomOf="@+id/menu_sensores"
+        app:layout_constraintStart_toStartOf="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.8" />
+
+    <ImageButton
+        android:id="@+id/menu_sensores"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="5"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="Search"
+        android:scaleType="fitCenter"
+        android:src="@drawable/sensores"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/menu_home"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageButton
+        android:id="@+id/menu_API"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="60dp"
+        android:layout_weight="5"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="Profile"
+        android:scaleType="fitCenter"
+        android:src="@drawable/apiic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/menu_sensores"
+        app:layout_constraintTop_toTopOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.444" />
+
+    <ImageButton
+        android:id="@+id/menu_imagenes"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="60dp"
+        android:layout_weight="5"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="Profile"
+        android:scaleType="fitCenter"
+        android:src="@drawable/galeria"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/menu_API"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="0.444" />
+
+    <ImageButton
+        android:id="@+id/menu_multimedia"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_weight="5"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="Profile"
+        android:scaleType="fitCenter"
+        android:src="@drawable/play"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.746"
+        app:layout_constraintStart_toEndOf="@+id/menu_imagenes"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="0.444" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
