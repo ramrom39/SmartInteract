@@ -56,8 +56,6 @@ class Sensores : AppCompatActivity(), SensorEventListener {
 
 
 
-
-
         val menu = findViewById<ImageButton>(R.id.buttonPopupMenu)
 
 
@@ -239,10 +237,7 @@ class Sensores : AppCompatActivity(), SensorEventListener {
                     val aceleracionZ = event.values[2]
 
                     // Calcular la magnitud de la aceleración total
-                    val aceleracionTotal = Math.sqrt(
-                        (aceleracionX * aceleracionX +
-                                aceleracionY * aceleracionY +
-                                aceleracionZ * aceleracionZ).toDouble()
+                    val aceleracionTotal = Math.sqrt((aceleracionX * aceleracionX + aceleracionY * aceleracionY + aceleracionZ * aceleracionZ).toDouble()
                     )
 
                     // Umbral para detectar una agitación (ajústalo según tu dispositivo)
