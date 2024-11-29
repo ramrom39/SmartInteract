@@ -35,6 +35,13 @@
             android:name=".ConexionAPI"
             android:exported="true">
         </activity>
+        <activity
+            android:name=".Galeria"
+            android:exported="true">
+        </activity>
     </application>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
 </manifest>
