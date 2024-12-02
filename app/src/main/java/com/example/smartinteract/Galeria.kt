@@ -6,7 +6,9 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.GestureDetector
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
@@ -15,9 +17,11 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GestureDetectorCompat
 import java.io.OutputStream
 
 class Galeria : AppCompatActivity() {
+    private lateinit var gestureDetector: GestureDetectorCompat
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.galeria)
@@ -32,7 +36,7 @@ class Galeria : AppCompatActivity() {
         val multimedia = findViewById<ImageButton>(R.id.menu_multimedia)
         val menu = findViewById<ImageButton>(R.id.buttonPopupMenu)
 
-
+        gestureDetector = GestureDetectorCompat(this, GestureListener(this))
 
         menu.setOnClickListener {
             showPopupMenu(it)
@@ -60,6 +64,36 @@ class Galeria : AppCompatActivity() {
         boton.setOnClickListener {
             startForResult.launch(Intent(MediaStore.ACTION_IMAGE_CAPTURE))
         }
+    }
+
+    inner class GestureListener(val context: Galeria) : GestureDetector.SimpleOnGestureListener() {
+        override fun onFling(e1: MotionEvent?, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+            val diffX = e2.x - (e1?.x ?: 0f)
+            val diffY = e2.y - (e1?.y ?: 0f)
+
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                if (diffX > 0) {
+                    val intent = Intent(context, App::class.java)
+                    context.startActivity(intent)
+                } else {
+                    showToast("Deslizado a la izquierda")
+                }
+            }
+            return true
+        }
+
+        override fun onSingleTapUp(e: MotionEvent): Boolean {
+            showToast("Toque detectado")
+            return super.onSingleTapUp(e)
+        }
+    }
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        // Utilizamos gestureDetector para manejar el evento
+        return gestureDetector.onTouchEvent(event) || super.onTouchEvent(event)
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
 
     private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->

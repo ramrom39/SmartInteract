@@ -1,10 +1,11 @@
 package com.example.smartinteract
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -14,9 +15,11 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GestureDetectorCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class App : AppCompatActivity() {
+
     private var Dialog: AlertDialog? = null
 
     private var textview:TextView?= null
@@ -28,14 +31,13 @@ class App : AppCompatActivity() {
 
         val menu = findViewById<ImageButton>(R.id.buttonPopupMenu)
 
-
-
         val home= findViewById<ImageButton>(R.id.menu_home)
         val sensores = findViewById<ImageButton>(R.id.menu_sensores)
         val conexionAPI = findViewById<ImageButton>(R.id.menu_API)
         val galeria = findViewById<ImageButton>(R.id.menu_imagenes)
         val multimedia = findViewById<ImageButton>(R.id.menu_multimedia)
         val botonflotante=findViewById<FloatingActionButton>(R.id.floatingActionButton)
+
 
         menu.setOnClickListener {
             showPopupMenu(it)
@@ -61,9 +63,35 @@ class App : AppCompatActivity() {
             startActivity(intent)
         }
         botonflotante.setOnClickListener {
-            showProximitySensorDialog()
+            // Animación de escala (cambiar tamaño)
+            val escalarX = ObjectAnimator.ofFloat(it, "scaleX", 1.2f).apply { duration = 150 }
+            val escalarY = ObjectAnimator.ofFloat(it, "scaleY", 1.2f).apply { duration = 150 }
+
+            // Animación de reducción (volver al tamaño original)
+            val desescalarX = ObjectAnimator.ofFloat(it, "scaleX", 1f).apply { duration = 150 }
+            val desescalarY = ObjectAnimator.ofFloat(it, "scaleY", 1f).apply { duration = 150 }
+
+            // Inicia la animación de aumento (crecimiento)
+            escalarX.start()
+            escalarY.start()
+
+            // Después de la animación de aumento, inicia la de reducción: addlistener para escuchar cuando escalarX termine
+            escalarX.addListener(object : AnimatorListenerAdapter() {
+                //Override onAnimationEnd para ejecutar la animación de reducción
+                override fun onAnimationEnd(animation: Animator) {
+                    super.onAnimationEnd(animation)
+                    desescalarX.start()
+                    desescalarY.start()
+
+                    // Muestra el diálogo de proximidad después de que termine la animación
+                    showProximitySensorDialog()
+                }
+            })
         }
+
     }
+
+
     private fun showPopupMenu(view: View) {
         val popupMenu = PopupMenu(this, view)
         popupMenu.menuInflater.inflate(R.menu.menutopright, popupMenu.menu)

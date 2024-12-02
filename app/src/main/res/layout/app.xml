@@ -82,15 +82,16 @@
     <ImageView
         android:id="@+id/logoImage"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="150dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:src="@drawable/logo"
         app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintHorizontal_bias="0.282"
         app:layout_constraintStart_toStartOf="@+id/view"
         app:layout_constraintTop_toTopOf="@+id/view"
-        app:layout_constraintVertical_bias="0.165" />
+        app:layout_constraintVertical_bias="0.27" />
 
     <TextView
         android:id="@+id/welcomeMessage"
@@ -242,7 +243,7 @@
         app:layout_constraintVertical_bias="0.778"
         app:srcCompat="@drawable/option"
         app:maxImageSize="40dp"
-        android:backgroundTint="#D5E8CA"
+        android:backgroundTint="#FFFFFF"
         android:tint="@color/black" />
 
 
