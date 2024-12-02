@@ -73,7 +73,9 @@ class Galeria : AppCompatActivity() {
             startForResult.launch(Intent(MediaStore.ACTION_IMAGE_CAPTURE))
         }
     }
+
     // Funcion para el gesto de deslizar hacia la izquierda
+
     inner class GestureListener(val context: Galeria) : GestureDetector.SimpleOnGestureListener() {
         override fun onFling(e1: MotionEvent?, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
             val diffX = e2.x - (e1?.x ?: 0f)

@@ -22,7 +22,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GestureDetectorCompat
 
 class Sensores : AppCompatActivity(), SensorEventListener {
-
+    // Declaramos las variables a nivel de clase para que puedan ser accedidas desde cualquier parte del código: detector de gestos, sensorManager, sensores, y los valores de los sensores
     private lateinit var gestureDetector: GestureDetectorCompat
 
     private lateinit var sensorManager: SensorManager
@@ -50,6 +50,7 @@ class Sensores : AppCompatActivity(), SensorEventListener {
     private var contador = 0
     private var lastShakeTime = 0L
     private val SHAKE_TIME_INTERVAL = 500L
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.sensores)
@@ -61,16 +62,15 @@ class Sensores : AppCompatActivity(), SensorEventListener {
         val acelerometro=findViewById<Button>(R.id.acelerometro)
 
 
-
+        // Inicializamos el resto de variables
         val menu = findViewById<ImageButton>(R.id.buttonPopupMenu)
-
-
         val home= findViewById<ImageButton>(R.id.menu_home)
         val sensores = findViewById<ImageButton>(R.id.menu_sensores)
         val conexionAPI = findViewById<ImageButton>(R.id.menu_API)
         val galeria = findViewById<ImageButton>(R.id.menu_imagenes)
         val multimedia = findViewById<ImageButton>(R.id.menu_multimedia)
 
+        // Creamos el detector de gestos
         gestureDetector = GestureDetectorCompat(this, GestureListener(this))
 
 
@@ -83,43 +83,54 @@ class Sensores : AppCompatActivity(), SensorEventListener {
         acelerometroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
 
 
+        // Método que lanza el menu de opciones
         menu.setOnClickListener {
             showPopupMenu(it)
         }
+        // Método que lanza la actividad de la pantalla de inicio
         home.setOnClickListener {
             val intent = Intent(this, App::class.java)
             startActivity(intent)
         }
+        // Método que lanza la actividad de la pantalla de sensores
         sensores.setOnClickListener {
             val intent = Intent(this, Sensores::class.java)
             startActivity(intent)
         }
+        // Método que lanza la actividad de la pantalla de conexión a la API
         conexionAPI.setOnClickListener {
             val intent = Intent(this, ConexionAPI::class.java)
             startActivity(intent)
         }
+        // Método que lanza la actividad de la pantalla de la galería
         galeria.setOnClickListener {
             val intent = Intent(this, Galeria::class.java)
             startActivity(intent)
         }
+        // Método que lanza la actividad de la pantalla de multimedia
         multimedia.setOnClickListener {
             val intent = Intent(this, Multimedia::class.java)
             startActivity(intent)
         }
+        // Método que lanza el diálogo de los sensores de proximidad
         proximidad.setOnClickListener {
             showProximitySensorDialog()
         }
+        // Método que lanza el diálogo de los sensores de giroscopio
         giroscopio.setOnClickListener {
             showGyroscopeDialog()
         }
+        // Método que lanza el diálogo de los sensores de luz
         luz.setOnClickListener {
             showLightSensorDialog()
         }
+        // Método que lanza el diálogo de los sensores del acelerometro
         acelerometro.setOnClickListener {
             showAcelerometroDialog()
         }
     }
 
+    // Funcion para el gesto de deslizar hacia la izquierda
 
     inner class GestureListener(val context: Sensores) : GestureDetector.SimpleOnGestureListener() {
         override fun onFling(e1: MotionEvent?, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
@@ -142,14 +153,21 @@ class Sensores : AppCompatActivity(), SensorEventListener {
             return super.onSingleTapUp(e)
         }
     }
+    // Función para manejar eventos de toque en la pantalla
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
         // Utilizamos gestureDetector para manejar el evento
         return gestureDetector.onTouchEvent(event) || super.onTouchEvent(event)
     }
 
+    // Función auxiliar para mostrar mensajes en pantalla
+
     private fun showToast(message: String) {
         Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
+
+    // Método que infla un layout personalizado para un AlertDialog que muestra información sobre el sensor de proximidad
+
     private fun showProximitySensorDialog() {
         // Inflamos el layout personalizado para el AlertDialog
         val dialogBuilder = LayoutInflater.from(this)
@@ -173,6 +191,8 @@ class Sensores : AppCompatActivity(), SensorEventListener {
         proximidadDialog?.show()
     }
 
+    // Método que infla un layout personalizado para un AlertDialog que muestra información sobre el giroscopio
+
     private fun showGyroscopeDialog() {
         // Inflamos el layout personalizado para el AlertDialog
         val dialogBuilder = LayoutInflater.from(this)
@@ -195,6 +215,9 @@ class Sensores : AppCompatActivity(), SensorEventListener {
         // Mostramos el AlertDialog
         giroscopioDialog?.show()
     }
+
+    // Método que infla un layout personalizado para un AlertDialog que muestra información sobre el sensor de luz
+
     private fun showLightSensorDialog() {
         // Inflamos el layout personalizado para el AlertDialog
         val dialogBuilder = LayoutInflater.from(this)
@@ -218,6 +241,8 @@ class Sensores : AppCompatActivity(), SensorEventListener {
         // Mostramos el AlertDialog
         luzDialog?.show()
     }
+
+    // Método que infla un layout personalizado para un AlertDialog que muestra información sobre el sensor de acelerómetro
     private fun showAcelerometroDialog() {
         // Inflamos el layout personalizado para el AlertDialog
         val dialogBuilder = LayoutInflater.from(this)
@@ -241,6 +266,7 @@ class Sensores : AppCompatActivity(), SensorEventListener {
         // Mostramos el AlertDialog
         acelerometroDialog?.show()
     }
+    // Este método se llama cada vez que el sensor detecta un cambio en su estado.
     override fun onSensorChanged(event: SensorEvent?) {
         if (event != null) {
             when (event.sensor.type) {
@@ -300,11 +326,12 @@ class Sensores : AppCompatActivity(), SensorEventListener {
         }
     }
 
-
+    // Este método se llama cuando la precisión del sensor cambia. (no se usa en este ejemplo. Pero es necesario implementarlo)
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
         // Aquí puedes manejar los cambios de precisión si es necesario
     }
 
+    // Metodo que se llama cuando la actividad se vuelve visible.
     override fun onResume() {
         super.onResume()
         proximidadSensor?.also { proxSensor ->
@@ -320,12 +347,14 @@ class Sensores : AppCompatActivity(), SensorEventListener {
             sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_UI)
         }
     }
-
+    // Este método se llama cuando el sensor se detiene.
     override fun onPause() {
         super.onPause()
         // Desregistramos el Listener para ahorrar batería
         sensorManager.unregisterListener(this)
     }
+
+    // Función para mostrar el menu desplegable
 
     private fun showPopupMenu(view: View) {
         val popupMenu = PopupMenu(this, view)
