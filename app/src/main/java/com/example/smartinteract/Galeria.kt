@@ -21,14 +21,15 @@ import androidx.core.view.GestureDetectorCompat
 import java.io.OutputStream
 
 class Galeria : AppCompatActivity() {
+
+    // Declaramos las variables a nivel de clase para que puedan ser accedidas desde cualquier parte del código
     private lateinit var gestureDetector: GestureDetectorCompat
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.galeria)
 
+        // Inicializamos las variables
         val boton = findViewById<Button>(R.id.cargarImagen)
-
-
         val home= findViewById<ImageButton>(R.id.menu_home)
         val sensores = findViewById<ImageButton>(R.id.menu_sensores)
         val conexionAPI = findViewById<ImageButton>(R.id.menu_API)
@@ -36,36 +37,43 @@ class Galeria : AppCompatActivity() {
         val multimedia = findViewById<ImageButton>(R.id.menu_multimedia)
         val menu = findViewById<ImageButton>(R.id.buttonPopupMenu)
 
+        // Crear una instancia de GestureDetector
         gestureDetector = GestureDetectorCompat(this, GestureListener(this))
-
+        // Método que lanza el menu de opciones
         menu.setOnClickListener {
             showPopupMenu(it)
         }
+        // Método que lanza la actividad de la pantalla de inicio
         home.setOnClickListener {
             val intent = Intent(this, App::class.java)
             startActivity(intent)
         }
+        // Método que lanza la actividad de la pantalla de sensores
         sensores.setOnClickListener {
             val intent = Intent(this, Sensores::class.java)
             startActivity(intent)
         }
+        // Método que lanza la actividad de la pantalla de conexión a la API
         conexionAPI.setOnClickListener {
             val intent = Intent(this, ConexionAPI::class.java)
             startActivity(intent)
         }
+        // Método que lanza la actividad de la pantalla de la galería
         galeria.setOnClickListener {
             val intent = Intent(this, Galeria::class.java)
             startActivity(intent)
         }
+        // Método que lanza la actividad de la pantalla de multimedia
         multimedia.setOnClickListener {
             val intent = Intent(this, Multimedia::class.java)
             startActivity(intent)
         }
+        // Método que lanza la actividad de la pantalla de carga de imagen
         boton.setOnClickListener {
             startForResult.launch(Intent(MediaStore.ACTION_IMAGE_CAPTURE))
         }
     }
-
+    // Funcion para el gesto de deslizar hacia la izquierda
     inner class GestureListener(val context: Galeria) : GestureDetector.SimpleOnGestureListener() {
         override fun onFling(e1: MotionEvent?, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
             val diffX = e2.x - (e1?.x ?: 0f)
@@ -87,15 +95,20 @@ class Galeria : AppCompatActivity() {
             return super.onSingleTapUp(e)
         }
     }
+
+    // Función auxiliar para mostrar mensajes en pantalla
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
         // Utilizamos gestureDetector para manejar el evento
         return gestureDetector.onTouchEvent(event) || super.onTouchEvent(event)
     }
+    // Función para manejar eventos de toque en la pantalla
 
     private fun showToast(message: String) {
         Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
 
+    // Metodo para registrar la actividad de la galería. La imagen se convierte a bitmap y se muestra en el imageview. Además se guardará en la galería
     private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val intent: Intent? = result.data
@@ -113,6 +126,8 @@ class Galeria : AppCompatActivity() {
             Toast.makeText(this, "No se pudo tomar la foto", Toast.LENGTH_SHORT).show()
         }
     }
+
+    // Función para guardar la imagen en la galería
 
     private fun saveImageToGallery(bitmap: Bitmap) {
         // Crear los metadatos necesarios para registrar la imagen en la galería
@@ -154,6 +169,9 @@ class Galeria : AppCompatActivity() {
             Toast.makeText(this, "Error al obtener URI para la imagen", Toast.LENGTH_SHORT).show()
         }
     }
+
+    // Función para mostrar el menu desplegable
+
     private fun showPopupMenu(view: View) {
         val popupMenu = PopupMenu(this, view)
         popupMenu.menuInflater.inflate(R.menu.menutopright, popupMenu.menu)

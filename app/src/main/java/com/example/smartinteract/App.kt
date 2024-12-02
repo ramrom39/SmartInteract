@@ -15,13 +15,11 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GestureDetectorCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class App : AppCompatActivity() {
-
+    // Declaramos las variables a nivel de clase para que puedan ser accedidas desde cualquier parte del código
     private var Dialog: AlertDialog? = null
-
     private var textview:TextView?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,8 +27,9 @@ class App : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.app)
 
-        val menu = findViewById<ImageButton>(R.id.buttonPopupMenu)
+    // Inicializamos las variables que se utilizarán en el código
 
+        val menu = findViewById<ImageButton>(R.id.buttonPopupMenu)
         val home= findViewById<ImageButton>(R.id.menu_home)
         val sensores = findViewById<ImageButton>(R.id.menu_sensores)
         val conexionAPI = findViewById<ImageButton>(R.id.menu_API)
@@ -38,30 +37,36 @@ class App : AppCompatActivity() {
         val multimedia = findViewById<ImageButton>(R.id.menu_multimedia)
         val botonflotante=findViewById<FloatingActionButton>(R.id.floatingActionButton)
 
-
+        // Método que lanza el menu de opciones
         menu.setOnClickListener {
             showPopupMenu(it)
         }
+        // Método que lanza la actividad de la pantalla de inicio
         home.setOnClickListener {
             val intent = Intent(this, App::class.java)
             startActivity(intent)
         }
+        // Método que lanza la actividad de la pantalla de sensores
         sensores.setOnClickListener {
             val intent = Intent(this, Sensores::class.java)
             startActivity(intent)
         }
+        // Método que lanza la actividad de la pantalla de conexión a la API
         conexionAPI.setOnClickListener {
             val intent = Intent(this, ConexionAPI::class.java)
             startActivity(intent)
         }
+        // Método que lanza la actividad de la pantalla de la galería
         galeria.setOnClickListener {
             val intent = Intent(this, Galeria::class.java)
             startActivity(intent)
         }
+        // Método que lanza la actividad de la pantalla de multimedia
         multimedia.setOnClickListener {
             val intent = Intent(this, Multimedia::class.java)
             startActivity(intent)
         }
+        // Método que activa el botón flotante con la animación de crecimiento y reducción
         botonflotante.setOnClickListener {
             // Animación de escala (cambiar tamaño)
             val escalarX = ObjectAnimator.ofFloat(it, "scaleX", 1.2f).apply { duration = 150 }
@@ -83,14 +88,12 @@ class App : AppCompatActivity() {
                     desescalarX.start()
                     desescalarY.start()
 
-                    // Muestra el diálogo de proximidad después de que termine la animación
-                    showProximitySensorDialog()
+                    // Muestra el diálogo de inflado después de que termine la animación
+                    layoutInfladoBotonFlotante()
                 }
             })
         }
-
     }
-
 
     private fun showPopupMenu(view: View) {
         val popupMenu = PopupMenu(this, view)
@@ -108,7 +111,9 @@ class App : AppCompatActivity() {
         popupMenu.show()
     }
 
-    private fun showProximitySensorDialog() {
+// Método que infla el layout personalizado para el AlertDialog
+
+    private fun layoutInfladoBotonFlotante() {
         // Inflamos el layout personalizado para el AlertDialog
         val dialogBuilder = LayoutInflater.from(this)
         val dialogView = dialogBuilder.inflate(R.layout.dialog_layout, null)
@@ -136,7 +141,7 @@ class App : AppCompatActivity() {
 
         // Configuramos el botón de cerrar para que cierre el dialog
         cerrarButton.setOnClickListener {
-            Dialog?.dismiss() // Cierra el dialog
+            Dialog?.dismiss()
         }
 
         // Mostramos el AlertDialog

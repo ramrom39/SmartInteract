@@ -23,6 +23,9 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 class ConexionAPI : AppCompatActivity() {
+
+    // Declaramos las variables a nivel de clase para que puedan ser accedidas desde cualquier parte del código
+
     private lateinit var gestureDetector: GestureDetectorCompat
 
     private lateinit var nombre: TextView
@@ -34,17 +37,13 @@ class ConexionAPI : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.conexionapi)
 
-        // Inicializamos los campos de texto
+        // Inicializamos las variables que se utilizarán en el para obtener los datos de la API
         nombre = findViewById(R.id.textViewAPI)
         usuario = findViewById(R.id.textViewAPI2)
         contraseña = findViewById(R.id.textViewAPI3)
         paises = findViewById(R.id.textViewAPI4)
 
-        // Llamamos a la función que obtiene los datos de la API
-        obtenerDatosUsuario()
-
-        gestureDetector = GestureDetectorCompat(this, GestureListener(this))
-
+        // Inicializamos el resto de variables
 
         val menu = findViewById<ImageButton>(R.id.buttonPopupMenu)
         val home= findViewById<ImageButton>(R.id.menu_home)
@@ -54,25 +53,38 @@ class ConexionAPI : AppCompatActivity() {
         val multimedia = findViewById<ImageButton>(R.id.menu_multimedia)
 
 
+        // Llamamos a la función que obtiene los datos de la API
+        obtenerDatosUsuario()
+
+        // Crear una instancia de GestureDetector
+        gestureDetector = GestureDetectorCompat(this, GestureListener(this))
+
+
+        // Método que lanza el menu de opciones
         menu.setOnClickListener {
             showPopupMenu(it)
         }
+        // Método que lanza la actividad de la pantalla de inicio
         home.setOnClickListener {
             val intent = Intent(this, App::class.java)
             startActivity(intent)
         }
+        // Método que lanza la actividad de la pantalla de sensores
         sensores.setOnClickListener {
             val intent = Intent(this, Sensores::class.java)
             startActivity(intent)
         }
+        // Método que lanza la actividad de la pantalla de conexión a la API
         conexionAPI.setOnClickListener {
             val intent = Intent(this, ConexionAPI::class.java)
             startActivity(intent)
         }
+        // Método que lanza la actividad de la pantalla de la galería
         galeria.setOnClickListener {
             val intent = Intent(this, Galeria::class.java)
             startActivity(intent)
         }
+        // Método que lanza la actividad de la pantalla de multimedia
         multimedia.setOnClickListener {
             val intent = Intent(this, Multimedia::class.java)
             startActivity(intent)
@@ -80,6 +92,7 @@ class ConexionAPI : AppCompatActivity() {
 
     }
 
+    // Método que muestra el menú de opciones
     private fun obtenerDatosUsuario() {
         // Creamos una Coroutine para hacer la petición en segundo plano
         CoroutineScope(Dispatchers.IO).launch {
@@ -145,6 +158,7 @@ class ConexionAPI : AppCompatActivity() {
         }
     }
 
+    // Funcion para el gesto de deslizar hacia la izquierda
     inner class GestureListener(val context: ConexionAPI) : GestureDetector.SimpleOnGestureListener() {
         override fun onFling(e1: MotionEvent?, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
             val diffX = e2.x - (e1?.x ?: 0f)
@@ -166,15 +180,16 @@ class ConexionAPI : AppCompatActivity() {
             return super.onSingleTapUp(e)
         }
     }
+    // Función para manejar eventos de toque en la pantalla
     override fun onTouchEvent(event: MotionEvent): Boolean {
         // Utilizamos gestureDetector para manejar el evento
         return gestureDetector.onTouchEvent(event) || super.onTouchEvent(event)
     }
-
+    // Función auxiliar para mostrar mensajes en pantalla
     private fun showToast(message: String) {
         Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
-
+    // Función para mostrar el menu desplegable
     private fun showPopupMenu(view: View) {
         val popupMenu = PopupMenu(this, view)
         popupMenu.menuInflater.inflate(R.menu.menutopright, popupMenu.menu)
